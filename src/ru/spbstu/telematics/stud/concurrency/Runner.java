@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.stud.concurency;
+package ru.spbstu.telematics.stud.concurrency;
 
 public class Runner {
 	public static void main(String[] args) throws Exception {

@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.stud.concurency;
+package ru.spbstu.telematics.stud.concurrency;
 
 public class Buyer implements Runnable {
 	private Bank bank;

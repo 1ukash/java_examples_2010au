@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.stud.concurency;
+package ru.spbstu.telematics.stud.concurrency;
 
 public class Bank {
 	private int amount = 100;
