@@ -45,7 +45,7 @@ public class StackRunner {
 						e.printStackTrace();
 					}
 					try {
-						Thread.sleep(Math.abs(new Random().nextInt()%200));
+						Thread.sleep(Math.abs(new Random().nextInt()%2000));
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

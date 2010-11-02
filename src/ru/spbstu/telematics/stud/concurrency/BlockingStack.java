@@ -10,6 +10,7 @@ public class BlockingStack <T> {
 	private ReentrantLock writelock = new ReentrantLock();
 	private Condition readcond = readlock.newCondition();
 	private Condition writecond = writelock.newCondition();
+	private ReentrantLock lock = new ReentrantLock();
 	
 	public BlockingStack(int size) {
 		array = new Object[size];		
@@ -18,19 +19,25 @@ public class BlockingStack <T> {
 	
 	
 	public void put (T o) throws InterruptedException {
+		boolean canPut = false;
+		lock.lock();
+		try {
+			canPut = curr + 1 < array.length;
+			if (canPut) {
+				array[curr+1] = o;
+				curr++;
+				writelock.lock();
+				try {
+					writecond.signal();
+				} finally {
+					writelock.unlock();
+				}
+			} 
+		} finally {
+			lock.unlock();
+		}
 		
-		if (curr + 1 < array.length) {
-			
-			array[curr+1] = o;
-			curr++;
-			writelock.lock();
-			try {
-				writecond.signal();
-			} finally {
-				writelock.unlock();
-			}
-			
-		} else {
+		if (!canPut) {
 			readlock.lock();
 			try {
 				readcond.await();
@@ -42,8 +49,17 @@ public class BlockingStack <T> {
 	}
 	
 	public T take () throws InterruptedException {
-		
-		if (curr < 0 ) {
+		boolean canTake = false;
+
+		lock.lock();
+		try {
+			canTake = curr >= 0;
+		}
+		finally {
+			lock.unlock();
+		}
+
+		if (!canTake) {
 			writelock.lock();
 			try {
 				writecond.await();
@@ -51,14 +67,21 @@ public class BlockingStack <T> {
 				writelock.unlock();
 			}
 		}
-		T tmp = (T) array[curr];
-		array[curr] = null;
-		curr--;
-		readlock.lock();
+		
+		T tmp = null;
+		lock.lock();
 		try {
-			readcond.signal();
+			tmp = (T) array[curr];
+			array[curr] = null;
+			curr--;
+			readlock.lock();
+			try {
+				readcond.signal();
+			} finally {
+				readlock.unlock();
+			}
 		} finally {
-			readlock.unlock();
+			lock.unlock();
 		}
 		return tmp;
 	}
