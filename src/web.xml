@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <description>PharmaPendium</description>
+  <distributable/>
+
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <resource-ref>
+    <description>Reference to JDBC Datasource for Content Database</description>
+    <res-ref-name>PharmaPendium/Content/DataSource</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <listener>
+    <description>Responsible for application context initialization and teardown</description>
+    <listener-class>com.elsevier.pharmapendium.web.ContextHandler</listener-class>
+  </listener>
+
+  <!-- Security -->
+  <filter>
+    <description>Responnsible for user authentication and authorization</description>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.elsevier.pharmapendium.web.SecurityFilter</filter-class>
+    <init-param>
+      <description>Set of publicly accessible url file prefixes separated by comma</description>
+      <param-name>PublicArea</param-name>
+      <param-value>/graphics/, /style.css, /javascript.js</param-value>
+    </init-param>
+    <init-param>
+      <description>Username request parameter name</description>
+      <param-name>Username</param-name>
+      <param-value>username</param-value>
+    </init-param>
+    <init-param>
+      <description>Password request parameter name</description>
+      <param-name>Password</param-name>
+      <param-value>password</param-value>
+    </init-param>
+    <init-param>
+      <description>Login page</description>
+      <param-name>LoginPage</param-name>
+      <param-value>/login.jsp</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+
+  <!-- Application -->
+  <filter>
+    <description>Handling application lifecycle</description>
+    <filter-name>ContextHandler</filter-name>
+    <filter-class>com.elsevier.pharmapendium.web.ContextHandler</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>ContextHandler</filter-name>
+    <url-pattern>*.do</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+
+
+  <!-- Struts -->
+  <servlet>
+    <servlet-name>Struts controller servlet</servlet-name>
+    <servlet-class>com.elsevier.pharmapendium.web.ControllerServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Struts controller servlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+
+  <!-- BAS -->
+  <servlet>
+    <servlet-name>Configuration</servlet-name>
+    <servlet-class>com.elsevier.luwak.bas.servlets.Configuration</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <env-entry>
+    <description>BAS Id used to identify this product</description>
+    <env-entry-name>bas_productid</env-entry-name>
+    <env-entry-type>java.lang.Integer</env-entry-type>
+    <env-entry-value>4</env-entry-value>
+  </env-entry>
+
+  <env-entry>
+    <description>BAS Noreplay mail address</description>
+    <env-entry-name>bas_noreplyemail</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>noreply@pharmapendium.com</env-entry-value>
+  </env-entry>
+
+  <env-entry>
+    <description>BAS SMTP host</description>
+    <env-entry-name>bas_smtphostname</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>elsoxf-appsmtp.science.regn.net</env-entry-value>
+  </env-entry>
+
+  <env-entry>
+    <description>BAS SMTP sender</description>
+    <env-entry-name>bas_smtpsender</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>admin@pharmapendium.com</env-entry-value>
+  </env-entry>
+
+  <env-entry>
+    <description>BAS JDBC url</description>
+    <env-entry-name>bas_jdbc_url</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>jdbc:esams:dbcp:jdbc:oracle:thin:@oxdora60:1521:dae</env-entry-value>
+  </env-entry>
+
+  <env-entry>
+    <description>BAS JDBC username</description>
+    <env-entry-name>bas_jdbc_username</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>pharmauser</env-entry-value>
+  </env-entry>
+
+  <env-entry>
+    <description>BAS JDBC password</description>
+    <env-entry-name>bas_jdbc_password</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>pharmauser</env-entry-value>
+  </env-entry>
+
+</web-app>

@@ -90,7 +90,7 @@ public class WorkWithDB {
 		//...
 		con.commit();
 //		con.rollback();
-		con.rollback(p);
+//		con.rollback(p);
 		con.close();
 		
 	}

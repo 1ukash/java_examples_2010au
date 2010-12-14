@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <form-beans>
+
+    <form-bean name="HomeForm" type="com.elsevier.pharmapendium.web.HomeForm"/>
+
+    <form-bean name="DrugsForm" type="com.elsevier.pharmapendium.web.drug.DrugsForm"/>
+    <form-bean name="ClassForm" type="com.elsevier.pharmapendium.web.drug.ClassForm"/>
+    <form-bean name="DrugForm" type="com.elsevier.pharmapendium.web.drug.DrugForm"/>
+
+    <form-bean name="EffectsForm" type="com.elsevier.pharmapendium.web.effect.EffectsForm"/>
+    <form-bean name="EffectForm" type="com.elsevier.pharmapendium.web.effect.EffectForm"/>
+
+    <form-bean name="TargetsForm" type="com.elsevier.pharmapendium.web.target.TargetsForm"/>
+    <form-bean name="TargetForm" type="com.elsevier.pharmapendium.web.target.TargetForm"/>
+
+  </form-beans>
+
+  <global-exceptions>
+
+  </global-exceptions>
+
+  <global-forwards>
+    <forward name="home" path="/home.do" redirect="true"/>
+    <!--<forward name="drug" path="/drugs/drug.do" redirect="false"/>-->
+  </global-forwards>
+
+  <action-mappings>
+
+    <action path="/home" name="HomeForm" type="com.elsevier.pharmapendium.web.HomeAction" scope="request" validate="false">
+      <forward name="default" path="/home.jsp"/>
+    </action>
+
+    <action path="/drugs" name="DrugsForm" type="com.elsevier.pharmapendium.web.drug.DrugsAction" scope="request" validate="false">
+      <forward name="default" path="/drugs/drugs.jsp"/>
+      <forward name="treeopen" path="/drugs/treeopen.jsp"/>
+      <forward name="names" path="/drugs/names.jsp"/>
+      <forward name="resolution" path="/drugs/resolution.jsp"/>
+      <forward name="lookup" path="/drugs/lookup.jsp"/>
+    </action>
+
+    <action path="/drugs/class" name="ClassForm" type="com.elsevier.pharmapendium.web.drug.ClassAction" scope="request" validate="false">
+      <forward name="default" path="/drugs/class.jsp"/>
+    </action>
+
+    <action path="/drugs/drug" name="DrugForm" type="com.elsevier.pharmapendium.web.drug.DrugAction" scope="request" validate="false">
+      <forward name="default" path="/drugs/drug.jsp"/>
+    </action>
+
+    <action path="/effects" name="EffectsForm" type="com.elsevier.pharmapendium.web.effect.EffectsAction" scope="request" validate="false">
+      <forward name="default" path="/effects/effects.jsp"/>
+      <forward name="treeopen" path="/effects/treeopen.jsp"/>
+      <forward name="names" path="/effects/names.jsp"/>
+      <forward name="lookup" path="/effects/lookup.jsp"/>
+    </action>
+
+    <action path="/effects/effect" name="EffectForm" type="com.elsevier.pharmapendium.web.effect.EffectAction" scope="request" validate="false">
+      <forward name="default" path="/effects/effect.jsp"/>
+    </action>
+
+    <action path="/targets" name="TargetsForm" type="com.elsevier.pharmapendium.web.target.TargetsAction" scope="request" validate="false">
+      <forward name="default" path="/targets/targets.jsp"/>
+      <forward name="treeopen" path="/targets/treeopen.jsp"/>
+      <forward name="names" path="/targets/names.jsp"/>
+      <forward name="lookup" path="/targets/lookup.jsp"/>
+    </action>
+
+    <action path="/targets/target" name="TargetForm" type="com.elsevier.pharmapendium.web.target.TargetAction" scope="request" validate="false">
+      <forward name="default" path="/targets/target.jsp"/>
+    </action>
+
+  </action-mappings>
+
+  <message-resources parameter="com.elsevier.pharmapendium.web.Resources"/>
+
+</struts-config>
+

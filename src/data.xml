@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+	<font attr="zzz">
+		<family>Arial</family>
+		<size>12</size>
+	</font>
+	<img>
+	<![CDATA[
+	select * from a;
+	]]>
+	</img>
+	<!-- comment -->
+</config>
